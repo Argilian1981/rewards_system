@@ -19,7 +19,10 @@ public class SubscriberService {
 
     public Subscriber findById(int id){
         Optional<Subscriber> subscriber = subscriberRepository.findById(id);
-        return subscriber.get();
+        if(subscriber.isPresent()){
+            return subscriber.get();
+        }
+        return null;
     }
 
     public List<Subscriber> findAll(){

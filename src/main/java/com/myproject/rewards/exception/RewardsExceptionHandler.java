@@ -12,14 +12,23 @@ import java.util.Date;
 
 @ControllerAdvice
 @RestController
-public class SubscriberExceptionHandler extends ResponseEntityExceptionHandler {
+public class RewardsExceptionHandler extends ResponseEntityExceptionHandler {
+
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllException(Exception ex , WebRequest request){
+        RewardsExceptionResponse rewardsExceptionResponse = new RewardsExceptionResponse(new Date() , ex.getMessage() ,
+                request.getDescription(false));
+
+        return new ResponseEntity(rewardsExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(SubscriberNotFound.class)
     public final ResponseEntity<Object> handleSubscriberNotFoundException(SubscriberNotFound ex, WebRequest request){
 
-        SubscriberExceptionResponse subscriberExceptionResponse = new SubscriberExceptionResponse(new Date() , ex.getMessage() ,
+        RewardsExceptionResponse rewardsExceptionResponse = new RewardsExceptionResponse(new Date() , ex.getMessage() ,
                 request.getDescription(false));
 
-        return new ResponseEntity(subscriberExceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(rewardsExceptionResponse, HttpStatus.NOT_FOUND);
     }
 }
